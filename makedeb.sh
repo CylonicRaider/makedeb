@@ -13,7 +13,7 @@ exec make -f- -- "$@" _SCRIPT="$0" PKGNAME="$P" VERSION="$V" <<'EOF'
 BUILD = build
 DATA = data
 
-.PHONY: help --help
+.PHONY: help --help clean
 
 help --help:
 	@echo "USAGE: $(_SCRIPT) pkgname version [VAR=value ...]"
@@ -21,5 +21,14 @@ help --help:
 	@echo "Variables:"
 	@echo "  BUILD: The directory where to place temporary build files"
 	@echo "  DATA: The directory to take package data from"
+
+$(BUILD):
+	mkdir -p $(BUILD)
+$(DATA):
+	@echo "Missing data directory ($(DATA)), cannot continue."
+	@exit 2
+
+clean:
+	rm -rf $(BUILD)
 
 EOF
