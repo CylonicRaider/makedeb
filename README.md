@@ -6,8 +6,9 @@ A guerilla Debian package generator.
 
 **TL;DR** `./makedeb.sh PACKAGE-NAME VERSION`
 
-The script will ask you to edit the configuration file manually and to re-run
-it thereafter.
+The script will – if the `$EDITOR` variable is set – invoke an interactive
+editor to allow you to tune the package's configuration, or ask you to
+edit the file manually and then re-run makedeb.
 
 The script optionally accepts additonal `VAR=value`-style configuration
 parameters; refer to `./makedeb.sh --help` (or the source code) on which
