@@ -47,10 +47,14 @@ $(BUILD)/control: | $(BUILD)
 	@echo "Architecture: $(ARCH)" >> $@
 	@echo "Maintainer: $(MAINTAINER)" >> $@
 	@echo "Description: $(DESC)" >> $@
-	@echo
-	@echo "Edit $(BUILD)/control and re-run $(_SCRIPT)."
-	@echo
-	@exit 127
+	@if [ -z "$$EDITOR" ]; then \
+	  echo; \
+	  echo ">>> Please edit and re-run makedeb >>> $(BUILD)/control"; \
+	  echo; \
+          exit 127; \
+	else \
+	  $$EDITOR "$(BUILD)/control" < /dev/tty; \
+	fi
 
 $(BUILD)/control.tar.gz: $(BUILD)/control
 	cd $(BUILD) && tar cvvzf control.tar.gz control
