@@ -35,7 +35,7 @@ help --help:
 $(BUILD):
 	mkdir -p $(BUILD)
 $(DATA):
-	@echo "Missing data directory ($(DATA)), cannot continue."
+	@echo ">>> Missing data directory ($(DATA)), cannot continue."
 	@exit 2
 
 $(BUILD)/debian-binary: | $(BUILD)
@@ -57,9 +57,12 @@ $(BUILD)/control: | $(BUILD)
 	fi
 
 $(BUILD)/control.tar.gz: $(BUILD)/control
-	cd $(BUILD) && tar cvvzf control.tar.gz control
+	cd $(BUILD) && tar czf control.tar.gz control
 
 $(BUILD)/data.tar.gz: $(DATA) | $(BUILD)
+	@echo
+	@echo ">>> Creating data file; this may take some time..."
+	@echo
 	cd $(DATA) && tar cvvzf $(shell readlink -f "$(BUILD)")/data.tar.gz .
 
 clean:
