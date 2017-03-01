@@ -2,17 +2,22 @@
 
 # makedeb -- A guerilla Debian package generator.
 
-[ $# -eq 0 -o "x$1" = "x--help" ] && set -- help
+if [ $# -ge 2 ]; then
+  P="$1"
+  V="$2"
+  shift 2
+fi
 
-exec make -f- -- "$@" _SCRIPT="$0" <<'EOF'
+exec make -f- -- "$@" _SCRIPT="$0" PKGNAME="$P" VERSION="$V" <<'EOF'
 
 BUILD = build
 DATA = data
 
-.PHONY: help
+.PHONY: help --help
 
-help:
-	@echo "USAGE: $(_SCRIPT) help|clean|<something>.deb [VAR=value ...]"
+help --help:
+	@echo "USAGE: $(_SCRIPT) pkgname version [VAR=value ...]"
+	@echo "       $(_SCRIPT) help|clean [VAR=value ...]"
 	@echo "Variables:"
 	@echo "  BUILD: The directory where to place temporary build files"
 	@echo "  DATA: The directory to take package data from"
